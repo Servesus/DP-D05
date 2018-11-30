@@ -16,6 +16,7 @@ import security.UserAccount;
 import domain.Application;
 import domain.Box;
 import domain.Complaint;
+import domain.Curricula;
 import domain.Finder;
 import domain.FixUpTask;
 import domain.HandyWorker;
@@ -25,19 +26,25 @@ import domain.Phase;
 @Transactional
 public class HandyWorkerService {
 
-	//Managed repository
+	// Managed repository -----------------------------------------------------
 	@Autowired
 	private HandyWorkerRepository	handyWorkerRepository;
-	//Servicios
+	// Supporting services ----------------------------------------------------
 	@Autowired
 	private FinderService			finderService;
 	@Autowired
 	private BoxService				boxService;
 	@Autowired
 	private ActorService			actorService;
+	@Autowired
+	private CurriculaService		curriculaService;
 
 
-	//Simple CRUD Methods
+	// Constructors -----------------------------------------------------------
+	public HandyWorkerService() {
+		super();
+	}
+	// Simple CRUD methods ----------------------------------------------------
 
 	public HandyWorker create() {
 		HandyWorker result;
@@ -45,6 +52,7 @@ public class HandyWorkerService {
 		Authority aut;
 		Collection<Authority> auts;
 		Finder finder;
+		final Curricula curricula;
 		final Collection<Application> apps = new ArrayList<Application>();
 		final Collection<Phase> phases = new ArrayList<Phase>();
 
@@ -53,6 +61,7 @@ public class HandyWorkerService {
 		user = new UserAccount();
 		result = new HandyWorker();
 		finder = this.finderService.create();
+		curricula = this.curriculaService.create();
 
 		aut.setAuthority(Authority.HANDYWORKER);
 		auts.add(aut);
@@ -64,6 +73,7 @@ public class HandyWorkerService {
 		result.setFinder(finder);
 		result.setApplications(apps);
 		result.setPhases(phases);
+		result.setCurricula(curricula);
 		return result;
 	}
 
@@ -94,6 +104,10 @@ public class HandyWorkerService {
 			Finder finder;
 			finder = handyWorker.getFinder();
 			finder = this.finderService.save(finder);
+			Curricula curricula;
+			curricula = handyWorker.getCurricula();
+			curricula = this.curriculaService.save(curricula);
+			handyWorker.setCurricula(curricula);
 			handyWorker.setFinder(finder);
 		}
 		HandyWorker result;
@@ -107,6 +121,7 @@ public class HandyWorkerService {
 
 		this.handyWorkerRepository.delete(handyWorker);
 	}
+	// Other business methods -------------------------------------------------
 
 	public List<Application> showApplicationsByHandyWorker() {
 		final Integer id = this.actorService.getActorLogged().getId();

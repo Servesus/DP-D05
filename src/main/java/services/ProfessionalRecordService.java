@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ProfessionalRecordRepository;
+import security.UserAccount;
 import domain.HandyWorker;
 import domain.ProfessionalRecord;
 
@@ -32,6 +33,10 @@ public class ProfessionalRecordService {
 
 	//Simple CRUD methods
 	public ProfessionalRecord create() {
+		UserAccount userAccount;
+		userAccount = this.actorService.getActorLogged().getUserAccount();
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("HANDYWORKER"));
+		Assert.isTrue(this.handyWorkerService.findOne(this.actorService.getActorLogged().getId()).getCurricula() != null);
 		final ProfessionalRecord professionalRecord = new ProfessionalRecord();
 		professionalRecord.setComment(new ArrayList<String>());
 		return professionalRecord;
@@ -46,8 +51,12 @@ public class ProfessionalRecordService {
 	}
 
 	public ProfessionalRecord save(final ProfessionalRecord professionalRecord) {
+		UserAccount userAccount;
+		userAccount = this.actorService.getActorLogged().getUserAccount();
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("HANDYWORKER"));
+		Assert.isTrue(this.handyWorkerService.findOne(this.actorService.getActorLogged().getId()).getCurricula() != null);
 		final ProfessionalRecord result = this.professionalRecordRepository.save(professionalRecord);
-		Assert.isNull(result);
+		Assert.notNull(result);
 		final HandyWorker hw = this.handyWorkerService.findOne(this.actorService.getActorLogged().getId());
 		if (result.getId() == 0) {
 			final List<ProfessionalRecord> pR = (List<ProfessionalRecord>) hw.getCurricula().getProfessionalRecord();
@@ -55,7 +64,6 @@ public class ProfessionalRecordService {
 			hw.getCurricula().setProfessionalRecord(pR);
 			this.curriculaService.save(hw.getCurricula());
 		} else {
-			Assert.isTrue(hw.getCurricula().getEndorserRecord().contains(result));
 			final List<ProfessionalRecord> pR = (List<ProfessionalRecord>) hw.getCurricula().getProfessionalRecord();
 			pR.add(result);
 			hw.getCurricula().setProfessionalRecord(pR);
@@ -65,8 +73,12 @@ public class ProfessionalRecordService {
 	}
 
 	public void delete(final ProfessionalRecord professionalRecord) {
-		Assert.isNull(professionalRecord);
-		Assert.isTrue(professionalRecord.getId() == 0);
+		UserAccount userAccount;
+		userAccount = this.actorService.getActorLogged().getUserAccount();
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("HANDYWORKER"));
+		Assert.isTrue(this.handyWorkerService.findOne(this.actorService.getActorLogged().getId()).getCurricula() != null);
+		Assert.notNull(professionalRecord);
+		Assert.isTrue(professionalRecord.getId() != 0);
 		this.professionalRecordRepository.delete(professionalRecord);
 	}
 

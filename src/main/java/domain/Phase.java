@@ -18,11 +18,6 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class Phase extends DomainEntity {
 
-	public Phase() {
-		super();
-	}
-
-
 	//Attribute
 	private String	title;
 	private String	description;

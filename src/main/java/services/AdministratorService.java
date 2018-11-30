@@ -21,6 +21,7 @@ import domain.Category;
 import domain.Configuration;
 import domain.Customer;
 import domain.HandyWorker;
+import domain.Profile;
 
 @Service
 @Transactional
@@ -46,12 +47,14 @@ public class AdministratorService {
 		Collection<Authority> auts;
 		Collection<Category> categories;
 		Collection<Configuration> configurations;
+		Collection<Profile> profiles;
 
 		categories = new ArrayList<Category>();
 		configurations = new ArrayList<Configuration>();
+		profiles = new ArrayList<Profile>();
 
 		userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		auts = new ArrayList<Authority>();
 		aut = new Authority();
@@ -60,10 +63,11 @@ public class AdministratorService {
 
 		aut.setAuthority(Authority.ADMIN);
 		auts.add(aut);
-		userAccount.setAuthorities(auts);
+		nowUserAccount.setAuthorities(auts);
 
 		result.setCategories(categories);
 		result.setConfigurations(configurations);
+		result.setProfiles(profiles);
 		result.setUserAccount(nowUserAccount);
 		result.setIsBanned(false);
 		result.setIsSuspicious(false);
@@ -74,7 +78,6 @@ public class AdministratorService {
 		Collection<Administrator> result;
 
 		result = this.administratorRepository.findAll();
-		Assert.notNull(result);
 
 		return result;
 	}
@@ -84,7 +87,6 @@ public class AdministratorService {
 		Administrator result;
 
 		result = this.administratorRepository.findOne(administratorId);
-		Assert.notNull(result);
 
 		return result;
 	}
@@ -92,11 +94,10 @@ public class AdministratorService {
 	public Administrator save(final Administrator a) {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 		Assert.notNull(a);
 
-		final Administrator result;
+		Administrator result;
 
 		if (a.getId() == 0) {
 			Collection<Box> boxSystem;
@@ -109,9 +110,10 @@ public class AdministratorService {
 	}
 	public void delete(final Administrator a) {
 		UserAccount userAccount;
-		userAccount = LoginService.getPrincipal();
 
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
+
 		Assert.notNull(a);
 		Assert.isTrue(a.getId() != 0);
 		this.administratorRepository.delete(a);
@@ -123,8 +125,7 @@ public class AdministratorService {
 	public List<Double> getStatsFixUpTasksPerUser() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		List<Double> result;
 		result = new ArrayList<Double>();
@@ -139,8 +140,7 @@ public class AdministratorService {
 	public List<Double> getStatsApplicationsPerFixUpTask() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		List<Double> result;
 		result = new ArrayList<Double>();
@@ -156,8 +156,7 @@ public class AdministratorService {
 	public List<Double> getStatsMaxPriceOfFixUpTask() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		List<Double> result;
 		result = new ArrayList<Double>();
@@ -173,8 +172,7 @@ public class AdministratorService {
 	public List<Double> getStatsPriceOfferedInApplications() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		List<Double> result;
 		result = new ArrayList<Double>();
@@ -190,8 +188,7 @@ public class AdministratorService {
 	public Double getRatioPendingApplications() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		Double result;
 		result = this.administratorRepository.getRatioOfPendingApplications();
@@ -203,8 +200,7 @@ public class AdministratorService {
 	public Double getRatioAcceptedApplications() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		Double result;
 		result = this.administratorRepository.getRatioOfAcceptedApplications();
@@ -215,8 +211,7 @@ public class AdministratorService {
 	public Double getRatioRejectedApplications() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		Double result;
 		result = this.administratorRepository.getRatioOfRejectedApplications();
@@ -227,8 +222,7 @@ public class AdministratorService {
 	public Double getRatioOfPendingApplicationsCanNotChangeStatus() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		Double result;
 		result = this.administratorRepository.getRatioOfPendingApplicationsCanNotChangeStatus();
@@ -239,8 +233,7 @@ public class AdministratorService {
 	public List<Customer> customerMoreAcceptedThanAvg() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		List<Customer> result;
 		result = this.administratorRepository.getCustomerMoreAcceptedThanAvg();
@@ -251,8 +244,7 @@ public class AdministratorService {
 	public List<HandyWorker> getHwMoreAcceptedThanAvg() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		List<HandyWorker> result;
 		result = this.administratorRepository.getHwMoreAcceptedThanAvg();
@@ -263,8 +255,7 @@ public class AdministratorService {
 	public List<Double> getStatsComplaintsPerFixUpTask() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		List<Double> result;
 		result = new ArrayList<Double>();
@@ -280,8 +271,7 @@ public class AdministratorService {
 	public List<Double> getStatsNotesPerRefereeReport() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		List<Double> result;
 		result = new ArrayList<Double>();
@@ -297,8 +287,7 @@ public class AdministratorService {
 	public Double getRatioFixUpTaskWithComplaint() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		Double result;
 		result = this.administratorRepository.getRatioFixUpTaskWithComplaint();
@@ -309,8 +298,7 @@ public class AdministratorService {
 	public List<Customer> getTop3CustomersOfComplaints() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		List<Customer> result;
 		result = this.administratorRepository.getTop3CustomersOfComplaints().subList(0, 2);
@@ -322,7 +310,7 @@ public class AdministratorService {
 	public List<HandyWorker> getTop3HandyWorkerOfComplaints() {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 
 		List<HandyWorker> result;
 		result = this.administratorRepository.getTop3HandyWorkerOfComplaints().subList(0, 2);
@@ -330,27 +318,10 @@ public class AdministratorService {
 		return result;
 	}
 
-	public void banActor(final Integer id) {
-		UserAccount userAccount;
-		userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
-		Actor a;
-		a = this.actorService.findOne(id);
-		a.setIsBanned(true);
-		this.actorService.save(a);
-	}
-
-	public void unbanActor(final Integer id) {
-		UserAccount userAccount;
-		userAccount = LoginService.getPrincipal();
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
-		Actor a;
-		a = this.actorService.findOne(id);
-		a.setIsBanned(false);
-		this.actorService.save(a);
-	}
-
 	public List<Actor> getSuspicious() {
+		UserAccount userAccount;
+		userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 		Collection<Actor> actors;
 		List<Actor> result;
 		result = new ArrayList<Actor>();
@@ -359,5 +330,43 @@ public class AdministratorService {
 			if (a.getIsSuspicious() == true)
 				result.add(a);
 		return result;
+	}
+
+	public void banActor(final Integer id) {
+		UserAccount userAccount;
+		userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
+		Assert.isTrue(id != 0);
+		List<Actor> suspicious;
+		suspicious = this.getSuspicious();
+		for (final Actor a : suspicious) {
+			Integer actorId;
+			actorId = a.getId();
+			if (actorId.equals(id))
+				a.setIsBanned(true);
+			this.actorService.save(a);
+		}
+	}
+
+	public void unbanActor(final Integer id) {
+		UserAccount userAccount;
+		userAccount = LoginService.getPrincipal();
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
+		Assert.isTrue(id != 0);
+		List<Actor> bans;
+		Collection<Actor> actors;
+		bans = new ArrayList<Actor>();
+		actors = this.actorService.findAll();
+		for (final Actor a : actors)
+			if (a.getIsBanned())
+				bans.add(a);
+
+		for (final Actor a : bans) {
+			Integer actorId;
+			actorId = a.getId();
+			if (actorId.equals(id))
+				a.setIsBanned(false);
+			this.actorService.save(a);
+		}
 	}
 }

@@ -3,7 +3,6 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,47 +44,81 @@ public class BoxService {
 	public Box findOne(final int boxID) {
 		return this.boxRepository.findOne(boxID);
 	}
-
+	//fallo: cuando va metiendo en spambox o inbox en el if estas buscando en boxes del actor
+	//logeado las cajas del reciever y da -1 en index por eso
 	public Box save(final Box box) {
-		final Box result = this.boxRepository.save(box);
+		/*
+		 * if (box.getIsSystem() == null)
+		 * box.setIsSystem(false);
+		 * final Box result = this.boxRepository.save(box);
+		 * final Actor a = this.actorService.getActorLogged();
+		 * final List<Box> boxes = (List<Box>) a.getBoxes();
+		 * final int index = boxes.indexOf(this.findOne(result.getId()));
+		 * if (result.getIsSystem()) {
+		 * final Box systemBox = boxes.get(index);
+		 * Assert.isTrue(systemBox.getName().equals(result.getName()) && result.getParentBoxes().isEmpty());
+		 * }
+		 * boxes.remove(this.findOne(result.getId()));
+		 * boxes.add(index, result);
+		 * a.setBoxes(boxes);
+		 * this.actorService.save(a);
+		 * return result;
+		 */
+		Assert.notNull(box);
+		Box result;
+		result = this.boxRepository.save(box);
 		final Actor a = this.actorService.getActorLogged();
-		final List<Box> boxes = (List<Box>) a.getBoxes();
-		Assert.isNull(result);
-		if (result.getId() == 0) {
-			Assert.isTrue(result.getIsSystem());
-			result.setIsSystem(false);
-			boxes.add(result);
-			a.setBoxes(boxes);
-			this.actorService.save(a);
-		} else {
-			if (result.getIsSystem()) {
-				final Box systemBox = boxes.get(boxes.indexOf(this.findOne(result.getId())));
-				Assert.isTrue(!systemBox.getName().equals(result.getName()) && result.getChildBoxes().isEmpty() && result.getParentBoxes().isEmpty());
-			}
-			Assert.isTrue(boxes.contains(result));
-			boxes.remove(this.findOne(result.getId()));
+		final Collection<Box> boxes = a.getBoxes();
+		if (box.getId() == 0) {
 			boxes.add(result);
 			a.setBoxes(boxes);
 			this.actorService.save(a);
 		}
 		return result;
+
+	}
+	public Box saveRecipient(final Box box, final Actor a) {
+		if (box.getIsSystem() == null)
+			box.setIsSystem(false);
+		final Box result = this.boxRepository.save(box);
+		final List<Box> boxes = (List<Box>) a.getBoxes();
+		final int index = boxes.indexOf(this.findOne(result.getId()));
+		if (result.getIsSystem()) {
+			final Box systemBox = boxes.get(index);
+			Assert.isTrue(systemBox.getName().equals(result.getName()) && result.getParentBoxes().isEmpty());
+		}
+		boxes.remove(this.findOne(result.getId()));
+		boxes.add(index, result);
+		a.setBoxes(boxes);
+		this.actorService.save(a);
+		return result;
 	}
 	public void delete(final Box box) {
-		Assert.isNull(box);
-		Assert.isTrue(box.getId() == 0);
+		Assert.isTrue(box.getId() != 0);
 		Assert.isTrue(!box.getIsSystem());
+		final Actor a = this.actorService.getActorLogged();
+		final List<Box> boxes = (List<Box>) a.getBoxes();
 		if (!(box.getChildBoxes().isEmpty())) {
-			for (final Box b1 : box.getChildBoxes())
+			for (final Box b1 : box.getChildBoxes()) {
+				boxes.remove(b1);
+				a.setBoxes(boxes);
+				this.actorService.save(a);
 				this.boxRepository.delete(b1);
+			}
+			boxes.remove(box);
+			this.actorService.save(a);
 			this.boxRepository.delete(box);
-		} else
+		} else {
+			boxes.remove(box);
+			this.actorService.save(a);
 			this.boxRepository.delete(box);
+		}
 	}
 
 	//Other business methods
 
 	public Collection<Box> createSystemBoxes() {
-		final Collection<Box> res = Collections.emptyList();
+		final List<Box> res = new ArrayList<Box>();
 		//crear cajas memoria vacias
 		final Box inBox = this.create();
 		final Box outBox = this.create();
@@ -101,16 +134,11 @@ public class BoxService {
 		outBox.setIsSystem(true);
 		trashBox.setIsSystem(true);
 		spamBox.setIsSystem(true);
-		//guardar cajas en BD
-		this.boxRepository.save(inBox);
-		this.boxRepository.save(outBox);
-		this.boxRepository.save(trashBox);
-		this.boxRepository.save(spamBox);
 		//añadir cajas al result
-		res.add(inBox);
-		res.add(outBox);
-		res.add(trashBox);
-		res.add(spamBox);
+		res.add(this.boxRepository.save(inBox));
+		res.add(this.boxRepository.save(outBox));
+		res.add(this.boxRepository.save(trashBox));
+		res.add(this.boxRepository.save(spamBox));
 		//result
 		return res;
 	}
@@ -122,7 +150,7 @@ public class BoxService {
 		this.boxRepository.save(child);
 		final List<Box> parentsSChilds = (List<Box>) parents.getChildBoxes();
 		parentsSChilds.add(child);
-		parents.setParentBoxes(parentsSChilds);
+		parents.setChildBoxes(parentsSChilds);
 		this.boxRepository.save(parents);
 	}
 

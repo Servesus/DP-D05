@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.MiscRecordRepository;
+import security.UserAccount;
 import domain.HandyWorker;
 import domain.MiscRecord;
 
@@ -32,6 +33,10 @@ public class MiscRecordService {
 
 	//Simple CRUD methods
 	public MiscRecord create() {
+		UserAccount userAccount;
+		userAccount = this.actorService.getActorLogged().getUserAccount();
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("HANDYWORKER"));
+		Assert.isTrue(this.handyWorkerService.findOne(this.actorService.getActorLogged().getId()).getCurricula() != null);
 		final MiscRecord miscRecord = new MiscRecord();
 		miscRecord.setComments(new ArrayList<String>());
 		return miscRecord;
@@ -46,8 +51,11 @@ public class MiscRecordService {
 	}
 
 	public MiscRecord save(final MiscRecord miscRecord) {
+		UserAccount userAccount;
+		userAccount = this.actorService.getActorLogged().getUserAccount();
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("HANDYWORKER"));
+		Assert.isTrue(this.handyWorkerService.findOne(this.actorService.getActorLogged().getId()).getCurricula() != null);
 		final MiscRecord result = this.miscRecordRepository.save(miscRecord);
-		Assert.isNull(result);
 		final HandyWorker hw = this.handyWorkerService.findOne(this.actorService.getActorLogged().getId());
 		if (result.getId() == 0) {
 			final List<MiscRecord> mR = (List<MiscRecord>) hw.getCurricula().getMiscRecord();
@@ -55,7 +63,6 @@ public class MiscRecordService {
 			hw.getCurricula().setMiscRecord(mR);
 			this.curriculaService.save(hw.getCurricula());
 		} else {
-			Assert.isTrue(hw.getCurricula().getEndorserRecord().contains(result));
 			final List<MiscRecord> mR = (List<MiscRecord>) hw.getCurricula().getMiscRecord();
 			mR.add(result);
 			hw.getCurricula().setMiscRecord(mR);
@@ -65,8 +72,11 @@ public class MiscRecordService {
 	}
 
 	public void delete(final MiscRecord miscRecord) {
-		Assert.isNull(miscRecord);
-		Assert.isTrue(miscRecord.getId() == 0);
+		UserAccount userAccount;
+		userAccount = this.actorService.getActorLogged().getUserAccount();
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("HANDYWORKER"));
+		Assert.isTrue(this.handyWorkerService.findOne(this.actorService.getActorLogged().getId()).getCurricula() != null);
+		Assert.isTrue(miscRecord.getId() != 0);
 		this.miscRecordRepository.delete(miscRecord);
 	}
 

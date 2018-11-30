@@ -2,8 +2,10 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.FinderRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
+import domain.Category;
 import domain.Configuration;
 import domain.Finder;
 import domain.FixUpTask;
+import domain.Warranty;
 
 @Service
 @Transactional
@@ -29,8 +30,13 @@ public class FinderService {
 	//Services
 	@Autowired
 	private ConfigurationService	configurationService;
+	@Autowired
+	private CategoryService			categoryService;
+	@Autowired
+	private WarrantyService			warrantyService;
 
 
+	// HAY QUE REVISARLO
 	//Simple CRUD Methods
 	public Finder create() {
 		Finder result;
@@ -39,6 +45,21 @@ public class FinderService {
 		final Configuration configuration = this.configurationService.create();
 		result.setConfiguration(configuration);
 		result.setFixUpTask(fixUps);
+		result.setRangeFinish(0);
+		result.setRangeStart(0);
+		final Category category = this.categoryService.findOne(2705);
+		result.setCategories(category);
+		final Warranty warranty = this.warrantyService.findOne(2715);
+		result.setWarranties(warranty);
+		result.setSingleKeyWord("");
+		final Collection<FixUpTask> fixUpTasks = new ArrayList<FixUpTask>();
+		result.setFixUpTask(fixUpTasks);
+		final Date startDate = new GregorianCalendar(2020, Calendar.NOVEMBER, 30).getTime();
+		final Date finishDate = new GregorianCalendar(2021, Calendar.NOVEMBER, 30).getTime();
+		result.setDateStartRange(startDate);
+		result.setDateFinishRange(finishDate);
+		final Date lastUpdate = new Date();
+		result.setLastUpdate(lastUpdate);
 		return result;
 	}
 	public void delete(final Finder finder) {
@@ -60,13 +81,13 @@ public class FinderService {
 
 	public Finder save(Finder finder) {
 		Assert.notNull(finder);
-		final UserAccount user = LoginService.getPrincipal();
-		final String a = Authority.HANDYWORKER;
-		Assert.isTrue(user.getAuthorities().contains(a));
-		final Double minPrice = finder.getRangeStart() * 1.0;
-		final Double maxPrice = finder.getRangeFinish() * 1.0;
-		final Collection<FixUpTask> fixUps = this.finderRepository.searchFixUpTasks(finder.getSingleKeyWord(), finder.getDateStartRange(), finder.getDateFinishRange(), minPrice, maxPrice, finder.getCategories().getName(), finder.getCategories().getName());
-		finder.setFixUpTask(fixUps);
+		/*
+		 * final Double minPrice = finder.getRangeStart() * 1.0;
+		 * final Double maxPrice = finder.getRangeFinish() * 1.0;
+		 * final Collection<FixUpTask> fixUps = this.finderRepository
+		 * .searchFixUpTasks(finder.getSingleKeyWord(), finder.getDateStartRange(), finder.getDateFinishRange(), minPrice, maxPrice, finder.getCategories().getName(), finder.getWarranties().getTitle());
+		 * finder.setFixUpTask(fixUps);
+		 */
 		finder = this.finderRepository.save(finder);
 		return finder;
 	}

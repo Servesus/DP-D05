@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.NoteRepository;
-import domain.Actor;
 import domain.Note;
 import domain.Report;
 
@@ -23,18 +22,30 @@ public class NoteService {
 	//Managed Repository
 	@Autowired
 	private NoteRepository	noteRepository;
-	
+
 	@Autowired
-	private ActorService actorService;
-	
+	private ActorService	actorService;
+
 	@Autowired
-	private ReportService reportService;
+	private ReportService	reportService;
 
 
 	//Simple CRUD methods
 	public Note create() {
 		Note result;
+		String authorName;
+		final Collection<String> customerComments = new ArrayList<String>();
+		final Collection<String> hwComments = new ArrayList<String>();
+		final Collection<String> refereeComments = new ArrayList<String>();
+
 		result = new Note();
+
+		authorName = this.actorService.getActorLogged().getName() + this.actorService.getActorLogged().getMiddleName() + this.actorService.getActorLogged().getSurname();
+
+		result.setAuthor(authorName);
+		result.setCustomerComments(customerComments);
+		result.setHwComments(hwComments);
+		result.setRefereeComments(refereeComments);
 		return result;
 	}
 
@@ -47,61 +58,48 @@ public class NoteService {
 		return this.noteRepository.findOne(noteId);
 	}
 
-	public Note save(final Note n, int reportId) {
+	public Note save(final Note n, final int reportId) {
 		Assert.notNull(n);
+		Assert.notNull(reportId);
 		Note result;
 		Report report;
-		
-		report= reportService.findOne(reportId);
-		
+
+		report = this.reportService.findOne(reportId);
+
 		Date currentMoment;
-		String authorName;
+
 		Collection<Note> notes = new ArrayList<Note>();
-		
-		notes= report.getNotes();
-		
-		authorName= actorService.getActorLogged().getName() + 
-				actorService.getActorLogged().getMiddleName() +
-				actorService.getActorLogged().getSurname();
+
+		notes = report.getNotes();
 
 		currentMoment = new Date();
 		n.setMoment(currentMoment);
-		n.setAuthor(authorName);
-		
+
 		result = this.noteRepository.save(n);
-		
+
 		notes.add(result);
-		
-		reportService.save(report);
+		notes.remove(n);
+		report.setNotes(notes);
+
+		this.reportService.save(report);
 
 		return result;
 	}
 
 	public void delete(final Note n) {
 		Assert.notNull(n);
-		Collection<Report> reports= new ArrayList<Report>();
-		String authorName;
-		String actorName;
-		Actor actor;
-		
-		actor= actorService.getActorLogged();
-		actorName= actor.getName()+ actor.getSurname()+ actor.getSurname();
-		
-		authorName= n.getAuthor();
-		
-		Assert.isTrue(authorName.equals(actorName));
-		
-		reports= reportService.findAll();
-		
-		for(Report r : reports){
-			if(r.getNotes().contains(n)){
-				Collection<Note> notes = r.getNotes();
+		Collection<Report> reports = new ArrayList<Report>();
+
+		reports = this.reportService.findAll();
+
+		for (final Report r : reports)
+			if (r.getNotes().contains(n)) {
+				final Collection<Note> notes = r.getNotes();
 				notes.remove(n);
 				r.setNotes(notes);
-				reportService.save(r);
+				this.reportService.save(r);
 			}
-		}
-		
+
 		this.noteRepository.delete(n);
 	}
 }

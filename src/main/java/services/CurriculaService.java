@@ -10,13 +10,11 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import repositories.CurriculaRepository;
 import domain.Curricula;
 import domain.EducationalRecord;
 import domain.EndorserRecord;
-import domain.HandyWorker;
 import domain.MiscRecord;
 import domain.PersonalRecord;
 import domain.ProfessionalRecord;
@@ -32,12 +30,6 @@ public class CurriculaService {
 	//Supporting services
 	@Autowired
 	private PersonalRecordService	personalRecordService;
-	@Autowired
-	private ActorService			actorService;
-	@Autowired
-	private HandyWorkerService		handyWorkerService;
-
-
 	//Simple CRUD methods
 	public Curricula create() {
 		final Curricula curricula = new Curricula();
@@ -59,25 +51,31 @@ public class CurriculaService {
 	}
 
 	public Curricula save(final Curricula curricula) {
+		final PersonalRecord saved = this.personalRecordService.save(curricula.getPersonalRecord());
+		curricula.setPersonalRecord(saved);
 		final Curricula result = this.curriculaRepository.save(curricula);
-		Assert.isNull(result);
-		final HandyWorker hw = this.handyWorkerService.findOne(this.actorService.getActorLogged().getId());
-		if (result.getId() == 0) {
-			hw.setCurricula(result);
-			this.handyWorkerService.save(hw);
-		} else {
-			Assert.isTrue(hw.getCurricula().getId() == result.getId());
-			hw.setCurricula(result);
-			this.handyWorkerService.save(hw);
-		}
+		//final HandyWorker hw = this.handyWorkerService.findOne(this.actorService.getActorLogged().getId());
+		//UserAccount userAccount;
+		//userAccount = this.actorService.getActorLogged().getUserAccount();
+		//Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("HANDYWORKER"));
+		//hw.setCurricula(result);
+		//this.handyWorkerService.save(hw);
+		//Assert.isTrue(hw.getCurricula().getId() == result.getId());
 		return result;
 	}
 
-	public void delete(final Curricula curricula) {
-		Assert.isNull(curricula);
-		Assert.isTrue(curricula.getId() == 0);
-		this.curriculaRepository.delete(curricula);
-	}
+	/*
+	 * public void delete(final Curricula curricula) {
+	 * Assert.isTrue(curricula.getId() != 0);
+	 * UserAccount userAccount;
+	 * userAccount = this.actorService.getActorLogged().getUserAccount();
+	 * Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("HANDYWORKER"));
+	 * final HandyWorker hw = this.handyWorkerService.findOne(this.actorService.getActorLogged().getId());
+	 * Assert.isTrue(hw.getCurricula().getId() == curricula.getId());
+	 * 
+	 * this.curriculaRepository.delete(curricula);
+	 * }
+	 */
 
 	//Other business methods
 

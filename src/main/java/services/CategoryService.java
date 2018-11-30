@@ -2,7 +2,6 @@
 package services;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,25 +35,24 @@ public class CategoryService {
 		UserAccount userAccount;
 		userAccount = LoginService.getPrincipal();
 
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
+
 		Category result;
 		result = new Category();
+
 		return result;
 	}
 
-	public List<Category> findAll() {
-		UserAccount userAccount;
-		userAccount = LoginService.getPrincipal();
+	public Collection<Category> findAll() {
+		Collection<Category> result;
 
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
-		return this.categoryRepository.findAll();
+		result = this.categoryRepository.findAll();
+		Assert.notNull(result);
+
+		return result;
 	}
 
 	public Category findOne(final Integer categoryId) {
-		UserAccount userAccount;
-		userAccount = LoginService.getPrincipal();
-
-		Assert.isTrue(userAccount.getAuthorities().contains("ADMIN"));
 		Assert.isTrue(categoryId != 0);
 		return this.categoryRepository.findOne(categoryId);
 	}
@@ -63,7 +61,7 @@ public class CategoryService {
 		Actor a;
 		a = this.actorService.getActorLogged();
 
-		Assert.isTrue(a.getUserAccount().getAuthorities().contains("ADMIN"));
+		Assert.isTrue(a.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 		Assert.notNull(c);
 
 		Administrator admin;
@@ -85,7 +83,7 @@ public class CategoryService {
 		a = this.actorService.getActorLogged();
 		Collection<Category> categories;
 
-		Assert.isTrue(a.getUserAccount().getAuthorities().contains("ADMIN"));
+		Assert.isTrue(a.getUserAccount().getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 		Assert.notNull(c);
 
 		Collection<Administrator> admins;

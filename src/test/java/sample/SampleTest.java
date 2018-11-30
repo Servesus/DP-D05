@@ -20,10 +20,10 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
 })
+@RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class SampleTest extends AbstractTest {
 

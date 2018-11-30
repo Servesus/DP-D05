@@ -96,7 +96,6 @@ public class CustomerService {
 		Customer result;
 
 		result = customerRepository.findOne(customerId);
-		Assert.notNull(result);
 
 		return result;
 	}
@@ -114,13 +113,6 @@ public class CustomerService {
 		result = customerRepository.save(customer);
 
 		return result;
-	}
-	
-	public void delete(Customer customer) {
-		Assert.notNull(customer);
-		Assert.isTrue(customer.getId() != 0);
-
-		customerRepository.delete(customer);
 	}
 	
 	public List<FixUpTask> showFixUpTasks(){
