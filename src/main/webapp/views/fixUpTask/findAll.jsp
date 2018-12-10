@@ -4,25 +4,42 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Browser Fix-Up Task</title>
+
+<%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+
 </head>
-<body>
 <security:authorize access="hasRole('CUSTOMER')">
-<input type="submit" name="Search“ value="<spring:message code="fixUpTask/findOne.do?fixUpTaskId={id}" /> /> 
-<display:table name="fixUpTasks" id="row"
-	requestURI="fixUpTask/customer/findAll.do" pagesize="5"
-		class="FixUpTask">
+<body>
+
+<display:table pagesize="5" class="fixUpTask" name="fixUpTasks" 
+	requestURI="fixUpTask/customer/findAll.do" id="row">
 	
-	<display:column property="url" 
-		<spring:url value=“fixUpTask/findOne.do?fixUpTaskId={id}"> 
-			<spring:param name=“id" value=“${id}" /> </spring:url> />
-	<display:column property="date" titleKey="fixUpTask.startDate" />
-	<display:column property="description" titleKey="fixUpTask.description" />
-	<display:column property="id" titleKey="fixUpTask.id" />
+<display:column> <a href="fixUpTask/findOne.do?fixUpTaskId=${row.id}">
+	<spring:message code="fixUpTask.findOne" /></a> </display:column>
+
+	<display:column>
+		<form action="fixUpTask/delete.do">
+  	 	 <input type="submit" value="<spring:message code="fixUpTask.delete" />" />
+		</form>
+	</display:column>
+		
+		<spring:message code="fixUpTask.startDate" var="startDate" />
+	<display:column property="startDate" title="${startDate}" sortable="true"/>
+
+	<spring:message code="fixUpTask.description" var="description" />
+	<display:column property="description" title="${description}" sortable="true"/>
+
+	<spring:message code="fixUpTask.id" var="id" />
+	<display:column property="id" title="${id}" sortable="true"/>
 
 </display:table>
-<input type="submit" name="Create“ value="<spring:message code="fixUpTask/create.do" /> />
-</security:authorize>
-
+<input type="submit" name="Create“ value="<spring:message code="fixUpTask.create" /> />
 </body>
+</security:authorize>
 </html>
