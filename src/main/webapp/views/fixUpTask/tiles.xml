@@ -26,5 +26,10 @@
 		<put-attribute name="title" value="Fix-Up Task findAll" />
 		<put-attribute name="body" value="/views/fixUpTask/findAll.jsp" />
 	</definition>
+	
+	<definition name="fixUpTask/customer/findOne" extends="master.page">
+		<put-attribute name="title" value="Fix-Up Task findOne" />
+		<put-attribute name="body" value="/views/fixUpTask/findOne.jsp" />
+	</definition>
 
 </tiles-definitions>

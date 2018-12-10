@@ -39,7 +39,8 @@
 	<display:column property="id" title="${id}" sortable="true"/>
 
 </display:table>
-<input type="submit" name="Create“ value="<spring:message code="fixUpTask.create" /> />
+<input type="button" name="Create" value="<spring:message code="fixUpTask.create" />"
+			onclick="javascript: relativeRedir('fixUpTask/customer/create.do');" />
 </body>
 </security:authorize>
 </html>

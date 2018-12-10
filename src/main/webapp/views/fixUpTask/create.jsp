@@ -103,7 +103,7 @@
 	<input type="submit" name="save"
 		value="<spring:message code="fixUpTask.save" />" />
 		
-		<input type="submit" name="cancel"
+		<input type="button" name="Cancel"
 		value="<spring:message code="fixUpTask.cancel" />"
 		onclick="javascript: relativeRedir('fixUpTask/customer/findAll.do');" />
 	<br />
