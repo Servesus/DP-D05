@@ -24,7 +24,7 @@
 	
 	<definition name="fixUpTask/customer/findAll" extends="master.page">
 		<put-attribute name="title" value="Fix-Up Task findAll" />
-		<put-attribute name="body" value="/views/fixUpTask/findAll.jsp" />
+		<put-attribute name="body" value="/views/fixUpTask/findAllCustomer.jsp" />
 	</definition>
 	
 	<definition name="fixUpTask/customer/findOne" extends="master.page">
@@ -35,6 +35,11 @@
 	<definition name="fixUpTask/customer/update" extends="master.page">	
 		<put-attribute name="title" value="Fix-Up Task update" />
 		<put-attribute name="body" value="/views/fixUpTask/create.jsp" />
+	</definition>
+	
+	<definition name="fixUpTask/handyWorker/findAll" extends="master.page">	
+		<put-attribute name="title" value="Fix-Up Task findAll" />
+		<put-attribute name="body" value="/views/fixUpTask/findAllHandyWorker.jsp" />
 	</definition>
 
 </tiles-definitions>

@@ -213,7 +213,7 @@ public class CustomerService {
 		for (final FixUpTask f : a)
 			for (final Customer c : b)
 				if (c.getFixUpTasks().contains(f)) {
-					res.add(c.getName());
+					res.add("FixUpTask with id:" + f.getId() + " is assigned to " + c.getName());
 					break;
 				}
 		return res;
