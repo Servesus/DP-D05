@@ -101,7 +101,12 @@
 	<br />
 	
 	<input type="submit" name="save"
-		value="<spring:message code="fixUpTask.save" />" />
+		value="<spring:message code="fixUpTask.save" />" />&nbsp; 
+	<jstl:if test="${fixUpTask.id != 0}">
+		<input type="submit" name="delete"
+			value="<spring:message code="fixUpTask.delete" />"
+			onclick="return confirm('<spring:message code="fixUpTask.confirm.delete" />')" />&nbsp;
+	</jstl:if>
 		
 		<input type="button" name="Cancel"
 		value="<spring:message code="fixUpTask.cancel" />"

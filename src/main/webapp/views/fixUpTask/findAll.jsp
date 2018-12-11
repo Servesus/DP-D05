@@ -22,15 +22,9 @@
 	
 <display:column> <a href="fixUpTask/findOne.do?fixUpTaskId=${row.id}">
 	<spring:message code="fixUpTask.findOne" /></a> </display:column>
-
-	<display:column>
-		<form action="fixUpTask/delete.do">
-  	 	 <input type="submit" value="<spring:message code="fixUpTask.delete" />" />
-		</form>
-	</display:column>
 		
 		<spring:message code="fixUpTask.startDate" var="startDate" />
-	<display:column property="startDate" title="${startDate}" sortable="true"/>
+	<display:column property="startDate" title="${startDate}" sortable="true" format="{0,date,dd/MM/yyyy HH:mm}"/>
 
 	<spring:message code="fixUpTask.description" var="description" />
 	<display:column property="description" title="${description}" sortable="true"/>
