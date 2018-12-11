@@ -41,6 +41,7 @@ public class FinderServiceTest extends AbstractTest {
 		final Date startDate = new GregorianCalendar(2020, Calendar.NOVEMBER, 30).getTime();
 		final Date finishDate = new GregorianCalendar(2021, Calendar.NOVEMBER, 30).getTime();
 		f.setDateFinishRange(finishDate);
+		f.setSingleKeyWord("f");
 		f.setDateStartRange(startDate);
 		final Finder saved = this.finderService.save(f);
 		final Collection<Finder> finders = this.finderService.findAll();
