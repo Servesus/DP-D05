@@ -21,6 +21,11 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
+	<form:hidden path="profiles" />
+	<form:hidden path="boxes" />
+	<form:hidden path="creditCards" />
+	<form:hidden path="complaints" />
+	<form:hidden path="fixUpTasks" />
  
 	<form:label path="name">
 		<spring:message code="customer.name" />:

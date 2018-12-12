@@ -21,6 +21,9 @@
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
+	<form:hidden path="profiles" />
+	<form:hidden path="boxes" />
+	<form:hidden path="reports" />
  
 	<form:label path="name">
 		<spring:message code="referee.name" />:
