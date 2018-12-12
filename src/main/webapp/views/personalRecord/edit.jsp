@@ -68,7 +68,7 @@
 	</jstl:if>
 	<input type="button" name="cancel"
 		value="<spring:message code="personalRecord.cancel" />"
-		onclick="javascript: relativeRedir('AQUI DONDE REDIRIJO');" />
+		onclick="javascript: relativeRedir('master.page');" />
 	<br />
 	
 	
