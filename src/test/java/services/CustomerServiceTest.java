@@ -1,4 +1,7 @@
+
 package services;
+
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -9,36 +12,35 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
-import domain.Customer;
-
 import security.UserAccount;
 import utilities.AbstractTest;
-
+import domain.Customer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"classpath:spring/datasource.xml",
-		"classpath:spring/config/packages.xml"})
+	"classpath:spring/datasource.xml", "classpath:spring/config/packages.xml"
+})
 @Transactional
-public class CustomerServiceTest extends AbstractTest{
-	
+public class CustomerServiceTest extends AbstractTest {
+
 	//Service under test
-	
+
 	@Autowired
-	private CustomerService customerService;
-	
+	private CustomerService	customerService;
+
+
 	@Test
-	public void createTest(){
-		Customer c =customerService.create();
-		
+	public void createTest() {
+		final Customer c = this.customerService.create();
+
 		Assert.notNull(c);
 	}
-	
+
 	@Test
-	public void saveTest(){
-		Customer c = customerService.create();
-		
-		UserAccount userAccount= c.getUserAccount();
+	public void saveTest() {
+		final Customer c = this.customerService.create();
+
+		final UserAccount userAccount = c.getUserAccount();
 		userAccount.setUsername("customer20");
 		userAccount.setPassword("123468023");
 		c.setUserAccount(userAccount);
@@ -47,10 +49,18 @@ public class CustomerServiceTest extends AbstractTest{
 		c.setName("Miguel");
 		c.setSurname("Velasco");
 		c.setPhoneNumber("625817204");
-		
-		Customer test = customerService.save(c);
-		
-		Assert.isTrue(customerService.findAll().contains(test));
+
+		final Customer test = this.customerService.save(c);
+
+		Assert.isTrue(this.customerService.findAll().contains(test));
+	}
+	@Test
+	public void testCustomerPorFixUpTask() {
+		super.authenticate("handyWorker1");
+		final List<String> res = this.customerService.CustomerPorFixUpTask();
+		Assert.notNull(res);
+		super.authenticate(null);
+
 	}
 
 }
