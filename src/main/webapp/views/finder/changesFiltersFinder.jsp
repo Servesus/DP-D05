@@ -17,40 +17,60 @@
 	<form:hidden path="rangeFinish" />
 		
 	<form:label path="title">
-		<spring:message code="application.create.title" />:
+		<spring:message code="finder.update.title" />:
 	</form:label>
 	<br />
 
 	<form:label path="singleKeyword">
-		<spring:message code="application.create.keyword" />:
+		<spring:message code="finder.update.keyword" />:
 	</form:label>
 	<form:input path="singleKeyword" />
 	<form:errors cssClass="error" path="singleKeyword" />
 	<br />
 	
-	<form:label path="rangeStart">
-		<spring:message code="application.create.hwcomments" />:
+	<form:label path="dateStartRange">
+		<spring:message code="finder.update.startdate" />:
 	</form:label>
-	<form:textarea path="hwComments" />
-	<form:errors cssClass="error" path="hwComments" />
+	<form:textarea path="dateStartRange" />
+	<form:errors cssClass="error" path="dateStartRange" />
 	<br />
 	
-	<form:label path="hwComments">
-		<spring:message code="application.create.hwcomments" />:
+	<form:label path="dateFinishRange">
+		<spring:message code="finder.update.finishdate" />:
 	</form:label>
-	<form:textarea path="hwComments" />
-	<form:errors cssClass="error" path="hwComments" />
+	<form:textarea path="dateFinishRange" />
+	<form:errors cssClass="error" path="dateFinishRange" />
 	<br />
 	
-	<form:label path="hwComments">
-		<spring:message code="application.create.hwcomments" />:
+	<form:label path="lastUpdate">
+		<spring:message code="finder.update.lastupdate" />:
 	</form:label>
-	<form:textarea path="hwComments" />
-	<form:errors cssClass="error" path="hwComments" />
+	<form:textarea path="lastUpdate" />
+	<form:errors cssClass="error" path="lastUpdate" />
 	<br />
 	
-	<input type="submit" name="create"
-		value="<spring:message code="application.create" />" />&nbsp; 
+	<form:label path="categoryName">
+		<spring:message code="finder.update.category" />:
+	</form:label>
+	<form:select id="category" path="category">
+		<form:option value="0" label="----" />		
+		<form:options items="${category.name}" itemValue="id"
+			itemLabel="name" />
+	</form:select>
+	<form:errors cssClass="error" path="category" />
+	
+	<form:label path="warrantyTitle">
+		<spring:message code="finder.update.warranty" />:
+	</form:label>
+	<form:select id="warranty" path="warranty">
+		<form:option value="0" label="----" />		
+		<form:options items="${warranty.title}" itemValue="id"
+			itemLabel="title" />
+	</form:select>
+	<form:errors cssClass="error" path="warranty" />
+	
+	<input type="submit" name="confirm"
+		value="<spring:message code="finder.update.update" />" />&nbsp; 
 	
 	<input type="button" name="cancel"
 		value="<spring:message code="announcement.cancel" />"
