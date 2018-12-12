@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,15 @@ public class FixUpTaskService {
 		result = this.fixUpTaskRepository.findAll();
 		return result;
 	}
-
+	public List<FixUpTask> findAllCustomer(final int customerId) {
+		UserAccount userAccount;
+		userAccount = this.actorService.getActorLogged().getUserAccount();
+		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("CUSTOMER"));
+		final List<FixUpTask> res = new ArrayList<FixUpTask>();
+		final Customer customer = this.customerService.findOne(customerId);
+		res.addAll(customer.getFixUpTasks());
+		return res;
+	}
 	public FixUpTask findOne(final int fixUpTaskId) {
 		FixUpTask result;
 		Assert.notNull(this.fixUpTaskRepository);
