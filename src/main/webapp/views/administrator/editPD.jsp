@@ -15,67 +15,67 @@
 
 </head>
 <body>
-<security:authorize access="hasRole('CUSTOMER')">
-<spring:message code="handyWorker.firstMessage" />
-<form:form action="customer/edit.do" modelAttribute="customer">
+<security:authorize access="hasRole('ADMIN')">
+<spring:message code="administrator.firstMessage" />
+<form:form action="administrator/edit.do" modelAttribute="administrator">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
  
 	<form:label path="name">
-		<spring:message code="customer.name" />:
+		<spring:message code="administrator.name" />:
 	</form:label>
 	<form:input path="name" />
 	<form:errors cssClass="error" path="name" />
 	<br />
 	
 	<form:label path="middleName">
-		<spring:message code="customer.middleName" />:
+		<spring:message code="administrator.middleName" />:
 	</form:label>
 	<form:input path="middleName" />
 	<form:errors cssClass="error" path="middleName" />
 	<br />
 	
 	<form:label path="surname">
-		<spring:message code="customer.surname" />:
+		<spring:message code="administrator.surname" />:
 	</form:label>
 	<form:input path="surname" />
 	<form:errors cssClass="error" path="surname" />
 	<br />
 	
 	<form:label path="photo">
-		<spring:message code="customer.photo" />:
+		<spring:message code="administrator.photo" />:
 	</form:label>
 	<form:input path="photo" />
 	<form:errors cssClass="error" path="photo" />
 	<br />
 	
 	<form:label path="email">
-		<spring:message code="customer.email" />:
+		<spring:message code="administrator.email" />:
 	</form:label>
 	<form:input path="email" />
 	<form:errors cssClass="error" path="email" />
 	<br />
 	
 	<form:label path="phoneNumber">
-		<spring:message code="customer.phoneNumber" />:
+		<spring:message code="administrator.phoneNumber" />:
 	</form:label>
 	<form:input path="phoneNumber" />
 	<form:errors cssClass="error" path="phoneNumber" />
 	<br />
 	
 	<form:label path="address">
-		<spring:message code="customer.address" />:
+		<spring:message code="administrator.address" />:
 	</form:label>
 	<form:input path="address" />
 	<form:errors cssClass="error" path="address" />
 	<br />
 	
 	<input type="submit" name="Save"
-		value="<spring:message code="customer.save" />" />&nbsp; 
+		value="<spring:message code="administrator.save" />" />&nbsp; 
 	
 		<input type="button" name="Back"
-		value="<spring:message code="customer.back" />"
+		value="<spring:message code="administrator.back" />"
 		onclick="javascript: relativeRedir('master-page');" />
 	<br />
  	
