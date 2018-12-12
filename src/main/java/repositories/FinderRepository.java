@@ -14,8 +14,9 @@ import domain.FixUpTask;
 @Repository
 public interface FinderRepository extends JpaRepository<Finder, Integer> {
 
+	//"select f from FixUpTask f where f.ticker like '%?1%' or f.description like '%?1%' or f.address like '%?1%'"
 	@Query("select f from FixUpTask f where f.ticker like '%?1%' or f.description like '%?1%' or f.address like '%?1%'")
-	Collection<FixUpTask> getFixUpTasksByKeyWord(String keyWord);
+	Collection<FixUpTask> getFixUpTasksByKeyWord(String singleKeyWord);
 
 	@Query("select f from FixUpTask f where f.estimatedDate BETWEEN ?1 and ?2")
 	Collection<FixUpTask> getFixUpTasksByDateRange(Date dateMin, Date dateMax);
