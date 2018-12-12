@@ -13,22 +13,33 @@
 	
 	<form:hidden path="id" />
 	<form:hidden path="version" />
-	<form:hidden path="moment" />
-	<form:hidden path="status" />
-	<form:hidden path="customerComments" />
-	<form:hidden path="handyWorker" />
-	<form:hidden path="fixUpTask" />
+	<form:hidden path="rangeStart" />
+	<form:hidden path="rangeFinish" />
 		
 	<form:label path="title">
 		<spring:message code="application.create.title" />:
 	</form:label>
 	<br />
 
-	<form:label path="price">
-		<spring:message code="application.create.price" />:
+	<form:label path="singleKeyword">
+		<spring:message code="application.create.keyword" />:
 	</form:label>
-	<form:input path="price" />
-	<form:errors cssClass="error" path="price" />
+	<form:input path="singleKeyword" />
+	<form:errors cssClass="error" path="singleKeyword" />
+	<br />
+	
+	<form:label path="rangeStart">
+		<spring:message code="application.create.hwcomments" />:
+	</form:label>
+	<form:textarea path="hwComments" />
+	<form:errors cssClass="error" path="hwComments" />
+	<br />
+	
+	<form:label path="hwComments">
+		<spring:message code="application.create.hwcomments" />:
+	</form:label>
+	<form:textarea path="hwComments" />
+	<form:errors cssClass="error" path="hwComments" />
 	<br />
 	
 	<form:label path="hwComments">
