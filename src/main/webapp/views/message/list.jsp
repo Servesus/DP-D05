@@ -20,34 +20,45 @@
 	requestURI="box/messages/list.do" id="row">
 		
 	<spring:message code="message.sender" var="sender" />
-	<display:column property="sender" title="${sender}"/>
+	<display:column property="sender" title="${sender.name}"/>
 	
 	<spring:message code="message.subject" var="subject" />
 	<display:column property="subject" title="${subject}"/>
-
 	
+	<spring:message code="message.priority" var="priority" />
+	<jstl:choose>
+		<jstl:when test="${message.priority == 0}">
+			priority = "NEUTRAL"
+		</jstl:when>
+		<jstl:when test="${message.priority == -1}">
+			priority = "LOW"
+		</jstl:when>
+		<jstl:when test="${message.priority == 1">
+			priority = "HIGH"
+		</jstl:when>
+	</jstl:choose>
+	<display:column property="priority" title="${priority}"/>
+	
+		<display:column property="subject" title="${subject}"/>
 	
 	<spring:message code="message.sendDate" var="sendDate" />
 	<display:column property="sendDate" title="${sendDate}"/>
 	
-	
+		
 
 	<display:column>
-	<jstl:if test="${box.id != 0 && box.isSystem ==false}">
-		<a href="actor/boxes/list.do?boxId=${row.id}">
-  	 	<spring:message code="box.edit" /> </a>
-  	 </jstl:if>
-	</display:column>	
-
+		<a href="message/view.do">
+  	 		<spring:message code="message.view" /> </a>
+	</display:column>
 	<display:column>
-		<a href="actor/message/list.do">
-  	 		<spring:message code="box.view" /> </a>
-	</display:column>	
+		<a href="box/message/delete.do">
+  	 		<spring:message code="message.delete" /> </a>
+	</display:column>		
 
 </display:table>
 
-<input type="button" name="Create" value="<spring:message code="box.create" />"
-			onclick="javascript: relativeRedir('actor/box/create.do');" />
+<input type="button" name="Back" value="<spring:message code="box.list" />"
+			onclick="javascript: relativeRedir('actor/box/list.do');" />
 </body>
 
 </html>

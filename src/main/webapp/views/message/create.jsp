@@ -27,15 +27,19 @@
 	<form:errors cssClass="error" path="recipient" />
 	<br />
 	
+	<form:select id="priority" path="priority">
+		<form:option value="NEUTRAL" label="NEUTRAL" />
+		<form:option value="LOW" label="LOW" />
+		<form:option value="HIGH" label="HIGH" />		
+		<form:options items="${messages}" itemValue="id" itemLabel="priority" />
+	</form:select>
+	
 	<form:label path="subject">
 		<spring:message code="message.subject" />:
 	</form:label>
 	<form:input path="subject" />
 	<form:errors cssClass="error" path="subject" />
 	<br />
-	
-	
-	
 	
 	<form:label path="body">
 		<spring:message code="message.body" />:
@@ -45,17 +49,11 @@
 	<br />
 	
 	<input type="submit" name="save"
-		value="<spring:message code="box.save" />" />&nbsp; 
-	
-	<jstl:if test="${box.id != 0 && box.isSystem ==false}">
-		<input type="submit" name="delete"
-			value="<spring:message code="box.delete" />"
-			onclick="return confirm('<spring:message code="box.confirm.delete" />')" />&nbsp;
-	</jstl:if>
+		value="<spring:message code="message.save" />" />&nbsp; 
 	
 	<input type="button" name="cancel"
-		value="<spring:message code="box.cancel" />"
-		onclick="javascript: relativeRedir('actor/boxes/list.do');" />
+		value="<spring:message code="message.cancel" />"
+		onclick="javascript: relativeRedir('message/edit.do');" />
 	<br />
  	
 </form:form>
