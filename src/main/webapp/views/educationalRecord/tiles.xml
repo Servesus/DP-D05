@@ -20,5 +20,9 @@
 		<put-attribute name="title" value="Educational Record" />
 		<put-attribute name="body" value="/views/educationalRecord/edit.jsp" />
 	</definition>
+	<definition name="handyWorker/educationalRecord/list" extends="master.page">	
+		<put-attribute name="title" value="Educational Record List" />
+		<put-attribute name="body" value="/views/educationalRecord/list.jsp" />
+	</definition>
 	
 </tiles-definitions>
