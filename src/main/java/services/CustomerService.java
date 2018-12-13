@@ -8,6 +8,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -103,7 +104,11 @@ public class CustomerService {
 
 	public Customer save(final Customer customer) {
 		Assert.notNull(customer);
-
+		final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		final String res = encoder.encodePassword(customer.getUserAccount().getPassword(), null);
+		final UserAccount a = new UserAccount();
+		a.setUsername(customer.getUserAccount().getUsername());
+		a.setPassword(res);
 		Customer result;
 
 		if (customer.getId() == 0) {

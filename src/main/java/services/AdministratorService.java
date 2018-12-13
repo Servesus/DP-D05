@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -92,6 +93,12 @@ public class AdministratorService {
 		userAccount = LoginService.getPrincipal();
 		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN"));
 		Assert.notNull(a);
+
+		final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		final String res = encoder.encodePassword(a.getUserAccount().getPassword(), null);
+		final UserAccount user1 = new UserAccount();
+		user1.setUsername(a.getUserAccount().getUsername());
+		user1.setPassword(res);
 
 		Administrator result;
 

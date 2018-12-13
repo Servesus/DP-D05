@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -87,6 +88,12 @@ public class RefereeService {
 		userAccount = LoginService.getPrincipal();
 		Assert.isTrue(userAccount.getAuthorities().iterator().next().getAuthority().equals("ADMIN") || userAccount.getAuthorities().iterator().next().getAuthority().equals("REFEREE"));
 		Assert.notNull(r);
+
+		final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		final String res = encoder.encodePassword(r.getUserAccount().getPassword(), null);
+		final UserAccount a = new UserAccount();
+		a.setUsername(r.getUserAccount().getUsername());
+		a.setPassword(res);
 
 		if (r.getId() == 0) {
 			final Collection<Box> systemBox = this.boxService.createSystemBoxes();
