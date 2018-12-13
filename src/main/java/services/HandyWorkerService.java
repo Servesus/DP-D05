@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -97,6 +98,13 @@ public class HandyWorkerService {
 
 	public HandyWorker save(final HandyWorker handyWorker) {
 		Assert.notNull(handyWorker);
+
+		final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
+		final String res = encoder.encodePassword(handyWorker.getUserAccount().getPassword(), null);
+		final UserAccount a = new UserAccount();
+		a.setUsername(handyWorker.getUserAccount().getUsername());
+		a.setPassword(res);
+
 		if (handyWorker.getId() == 0) {
 			Collection<Box> boxSystem;
 			boxSystem = this.boxService.createSystemBoxes();
