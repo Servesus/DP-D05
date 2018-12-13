@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!-- 
- * tiles.xml
+ * tiles_es.xml
  *
  * Copyright (C) 2018 Universidad de Sevilla
  * 
@@ -13,12 +13,12 @@
 <!DOCTYPE tiles-definitions PUBLIC
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
-       
+      
 <tiles-definitions>
 
-	<definition name="handyWorker/personalRecord extends="master.page">	
-		<put-attribute name="title" value="Personal Record" />
-		<put-attribute name="body" value="/views/personalRecord/edit.jsp" />
+	<definition name="handyWorker/educationalRecord" extends="master.page">	
+		<put-attribute name="title" value="Historial Académico" />
+		<put-attribute name="body" value="/views/educationalRecord/edit.jsp" />
 	</definition>
 	
 </tiles-definitions>

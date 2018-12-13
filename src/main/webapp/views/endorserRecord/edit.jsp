@@ -10,64 +10,53 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <security:authorize access="hasRole('HANDYWORKER')">
-<form:form action="handyWorker/personalRecord/edit.do" modelAttribute="personalRecord">
+<form:form action="handyWorker/endorserRecord/edit.do" modelAttribute="endorserRecord">
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
-	<form:label path="name">
-		<spring:message code="personalRecord.name" />
+	<form:label path="fullName">
+		<spring:message code="endorserRecord.fullName"/>
 	</form:label>
-	<form:input path="name"/>
-	<form:errors cssClass="error" path="name"/>
-	<br />
-	
-	<form:label path="surname">
-		<spring:message code="personalRecord.surname"/>
-	</form:label>
-	<form:input path="surname"/>
-	<form:errors cssClass="error" path="surname"/>
-	<br />
-	
-	<form:label path="middleName">
-		<spring:message code="personalRecord.middleName" />
-	</form:label>
-	<form:input path="middleName"/>
+	<form:input path="fullName"/>
+	<form:errors cssClass="error" path="fullName"/>
 	<br />
 	
 	<form:label path="email">
-		<spring:message code="personalRecord.email"/>
+		<spring:message code="endorserRecord.email"/>
 	</form:label>
 	<form:input path="email"/>
 	<form:errors cssClass="error" path="email"/>
 	<br />
 	
 	<form:label path="phone">
-		<spring:message code="personalRecord.phone"/>
+		<spring:message code="endorserRecord.phone"/>
 	</form:label>
 	<form:input path="phone"/>
 	<form:errors cssClass="error" path="phone"/>
 	<br />
 	
-	<form:label path="photo">
-		<spring:message code="personalRecord.photo"/>
-	</form:label>
-	<form:input path="photo"/>
-	<form:errors cssClass="error" path="photo"/>
-	
 	<form:label path="linkedInProfile">
-		<spring:message code="personalRecord.linkedInProfile"/>
+		<spring:message code="endorserRecord.linkedInProfile"/>
 	</form:label>
 	<form:input path="linkedInProfile"/>
 	<form:errors cssClass="error" path="linkedInProfile"/>
+	<br/>
+	
+	<form:label path="comments">
+		<spring:message code="endorserRecord.comments"/>
+	</form:label>
+	<form:input path="comments"/>
+	<form:errors cssClass="errors" path="comments"/>
+	<br />
 	
 	<input type="submit" name="save"
-		value="<spring:message code="personalRecord.save" />" />&nbsp; 
-	<jstl:if test="${personalRecord.id != 0}">
+		value="<spring:message code="endorserRecord.save" />" />&nbsp; 
+	<jstl:if test="${endorserRecord.id != 0}">
 		<input type="submit" name="delete"
-			value="<spring:message code="personalRecord.delete" />" />
+			value="<spring:message code="endorserRecord.delete" />" />
 	</jstl:if>
 	<input type="button" name="cancel"
-		value="<spring:message code="personalRecord.cancel" />"
+		value="<spring:message code="endorserRecord.cancel" />"
 		onclick="javascript: relativeRedir('master.page');" />
 	<br />
 	
