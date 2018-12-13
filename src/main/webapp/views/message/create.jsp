@@ -15,105 +15,49 @@
 
 </head>
 <body>
-<security:authorize access="hasRole('CUSTOMER')">
-<form:form action="fixUpTask/customer/create.do" modelAttribute="fixUpTask">
+<form:form action="box/message/create.do" modelAttribute="message">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
- 
- 	<form:label path="startDate">
-		<spring:message code="fixUpTask.startDate" />:
+	
+	<form:label path="recipient">
+		<spring:message code="message.recipient" />:
 	</form:label>
-	<form:input path="startDate" />
-	<form:errors cssClass="error" path="startDate" />
+	<form:input path="recipient" />
+	<form:errors cssClass="error" path="recipient" />
 	<br />
 	
-	<form:label path="description">
-		<spring:message code="fixUpTask.description" />:
+	<form:label path="subject">
+		<spring:message code="message.subject" />:
 	</form:label>
-	<form:input path="description" />
-	<form:errors cssClass="error" path="description" />
+	<form:input path="subject" />
+	<form:errors cssClass="error" path="subject" />
 	<br />
 	
-	<form:label path="address">
-		<spring:message code="fixUpTask.address" />:
-	</form:label>
-	<form:input path="address" />
-	<form:errors cssClass="error" path="address" />
-	<br />
 	
-	<form:label path="maxPrice">
-		<spring:message code="fixUpTask.maxPrice" />:
-	</form:label>
-	<form:input path="maxPrice" />
-	<form:errors cssClass="error" path="maxPrice" />
-	<br />
 	
-	<form:label path="estimatedDate">
-		<spring:message code="fixUpTask.estimatedDate" />:
-	</form:label>
-	<form:input path="estimatedDate" />
-	<form:errors cssClass="error" path="estimatedDate" />
-	<br />
 	
-	<form:label path="warranty">
-		<spring:message code="fixUpTask.warranty" />:
+	<form:label path="body">
+		<spring:message code="message.body" />:
 	</form:label>
-	<form:input path="warranty" />
-	<form:errors cssClass="error" path="warranty" />
-	<br />
-	
-	<form:label path="category">
-		<spring:message code="fixUpTask.category" />:
-	</form:label>
-	<form:input path="category" />
-	<form:errors cssClass="error" path="category" />
-	<br />
-	
-	<form:label path="application">
-		<spring:message code="fixUpTask.application" />:
-	</form:label>
-	<form:select id="applications" path="application">
-		<form:option value="0" label="----" />		
-		<form:options items="${applications}" itemValue="id" itemLabel="name" />
-	</form:select>
-	<form:errors cssClass="error" path="applications" />
-	<br />
-	
-	<form:label path="complaint">
-		<spring:message code="fixUpTask.complaint" />:
-	</form:label>
-	<form:select id="complaints" path="complaint">
-		<form:option value="0" label="----" />		
-		<form:options items="${complaints}" itemValue="id" itemLabel="name" />
-	</form:select>
-	<form:errors cssClass="error" path="complaints" />
-	<br />
-	
-	<form:label path="phase">
-		<spring:message code="fixUpTask.phase" />:
-	</form:label>
-	<form:select id="phases" path="phase">
-		<form:option value="0" label="----" />		
-		<form:options items="${phases}" itemValue="id" itemLabel="name" />
-	</form:select>
-	<form:errors cssClass="error" path="phases" />
+	<form:textarea path="body" />
+	<form:errors cssClass="error" path="body" />
 	<br />
 	
 	<input type="submit" name="save"
-		value="<spring:message code="fixUpTask.save" />" />&nbsp; 
-	<jstl:if test="${fixUpTask.id != 0}">
+		value="<spring:message code="box.save" />" />&nbsp; 
+	
+	<jstl:if test="${box.id != 0 && box.isSystem ==false}">
 		<input type="submit" name="delete"
-			value="<spring:message code="fixUpTask.delete" />"
-			onclick="return confirm('<spring:message code="fixUpTask.confirm.delete" />')" />&nbsp;
+			value="<spring:message code="box.delete" />"
+			onclick="return confirm('<spring:message code="box.confirm.delete" />')" />&nbsp;
 	</jstl:if>
-		
-		<input type="button" name="Cancel"
-		value="<spring:message code="fixUpTask.cancel" />"
-		onclick="javascript: relativeRedir('fixUpTask/customer/findAll.do');" />
+	
+	<input type="button" name="cancel"
+		value="<spring:message code="box.cancel" />"
+		onclick="javascript: relativeRedir('actor/boxes/list.do');" />
 	<br />
  	
 </form:form>
-</security:authorize>
 </body>
 </html>

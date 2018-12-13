@@ -16,23 +16,38 @@
 </head>
 
 <body>
-
-<display:table pagesize="5" class="box" name="boxes" 
-	requestURI="actor/boxes/list.do" id="row">
-	
-<display:column> <a href="box/findOne.do?actorkId=${row.id}">
-	<spring:message code="box.findOne" /></a> </display:column>
+<display:table pagesize="5" class="displaytag" name="messages" 
+	requestURI="box/messages/list.do" id="row">
 		
-	<spring:message code="box.name" var="name" />
-	<display:column property="name" title="${name}" sortable="true"/>
-
-	<spring:message code="box.id" var="id" />
-	<display:column property="id" title="${id}" sortable="true"/>
+	<spring:message code="message.sender" var="sender" />
+	<display:column property="sender" title="${sender}"/>
 	
+	<spring:message code="message.subject" var="subject" />
+	<display:column property="subject" title="${subject}"/>
+
+	
+	
+	<spring:message code="message.sendDate" var="sendDate" />
+	<display:column property="sendDate" title="${sendDate}"/>
+	
+	
+
+	<display:column>
+	<jstl:if test="${box.id != 0 && box.isSystem ==false}">
+		<a href="actor/boxes/list.do?boxId=${row.id}">
+  	 	<spring:message code="box.edit" /> </a>
+  	 </jstl:if>
+	</display:column>	
+
+	<display:column>
+		<a href="actor/message/list.do">
+  	 		<spring:message code="box.view" /> </a>
+	</display:column>	
 
 </display:table>
-<input type="button" name="Create" value="<spring:message code="fixUpTask.create" />"
-			onclick="javascript: relativeRedir('fixUpTask/customer/create.do');" />
+
+<input type="button" name="Create" value="<spring:message code="box.create" />"
+			onclick="javascript: relativeRedir('actor/box/create.do');" />
 </body>
 
 </html>

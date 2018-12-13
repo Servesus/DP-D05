@@ -15,7 +15,7 @@
 
 </head>
 <body>
-<form:form action="actor/box/create.do" modelAttribute="fixUpTask">
+<form:form action="actor/box/create.do" modelAttribute="box">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
@@ -29,12 +29,14 @@
 	
 	<input type="submit" name="save"
 		value="<spring:message code="box.save" />" />&nbsp; 
+	
 	<jstl:if test="${box.id != 0 && box.isSystem ==false}">
 		<input type="submit" name="delete"
 			value="<spring:message code="box.delete" />"
 			onclick="return confirm('<spring:message code="box.confirm.delete" />')" />&nbsp;
 	</jstl:if>
-		<input type="button" name="back"
+	
+	<input type="button" name="cancel"
 		value="<spring:message code="box.cancel" />"
 		onclick="javascript: relativeRedir('actor/boxes/list.do');" />
 	<br />
