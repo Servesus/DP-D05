@@ -30,11 +30,8 @@
 <spring:message code="fixUpTask.category" /> ${fixUpTask.category} <br/>
 
 <spring:message code="fixUpTask.applications" />
-<display:table name="${fixUpTask.applications}" id="row">
-<display:column property="moment" titleKey="fixUpTask.applications.moment" />
-<display:column property="status" titleKey="fixUpTask.applications.status" />
-<display:column property="price" titleKey="fixUpTask.applications.price" />
-</display:table>
+<input type="button" name="Applications" value="<spring:message code="fixUpTask.applications" />"
+			onclick="javascript: relativeRedir('application/customer/findAll.do');" />
 
 <spring:message code="fixUpTask.complaints" />
 <display:table name="${fixUpTask.complaints}" id="row">

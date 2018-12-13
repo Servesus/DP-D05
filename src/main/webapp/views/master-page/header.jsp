@@ -54,7 +54,16 @@
 			<li><a class="fNiv"><spring:message	code="master.page.handyWorker" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="fixUpTask/handyWorker/findAll.do"><spring:message code="master.page.handyWorker.findAll" /></a></li>					
+					<li><a href="fixUpTask/handyWorker/findAll.do"><spring:message code="master.page.handyWorker.findAll" /></a></li>
+					<li><a href="handyWorker/educationalRecord/list.do"><spring:message code="master.page.handyWorker.list" /></a></li>
+					<li><a href="handyWorker/endorserRecord/list.do"><spring:message code="master.page.handyWorker.listEndorser" /></a></li>
+					<li><a href="handyWorker/professionalRecord/list.do"><spring:message code="master.page.handyWorker.listProfessional" /></a></li>
+					<li><a href="handyWorker/miscRecord/list.do"><spring:message code="master.page.handyWorker.listMisc" /></a></li>
+					<li><a href="handyWorker/personalRecord/edit.do"><spring:message code="master.page.handyWorker.edit" /></a></li>
+					<li><a href="handyWorker/finder/fixUpTask/list.do"><spring:message code="master.page.handyWorker.listFinder" /></a></li>
+					<li><a href="handyworker/application/create.do"><spring:message code="master.page.handyWorker.createApplication" /></a></li>
+					
+					
 				</ul>
 			</li>
 		</security:authorize>
@@ -72,6 +81,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="profile/action-1.do"><spring:message code="master.page.profile.action.1" /></a></li>
+					<li><a href="actor/box/list.do"><spring:message code="master.page.box.list" /></a></li>
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>
 			</li>

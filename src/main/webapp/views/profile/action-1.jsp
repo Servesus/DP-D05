@@ -49,6 +49,8 @@
 <display:column property="maxPrice" titleKey="customer.fixUpTasks.maxPrice" />
 </display:table>
 
+<input type="button" name="Edit PD" value="<spring:message code="customer.editPD" />"
+			onclick="javascript: relativeRedir(customer/edit.do');" />
 </security:authorize>
 
 
@@ -64,6 +66,9 @@
 <display:table name="${administrator.categories}" id="row">
 <display:column property="name" titleKey="administrator.categories.name" />
 </display:table>
+
+<input type="button" name="Edit PD" value="<spring:message code="administrator.editPD" />"
+			onclick="javascript: relativeRedir(administrator/edit.do');" />
 
 </security:authorize>
 
@@ -93,6 +98,9 @@
 <display:column property="number" titleKey="handyWorker.phases.number" />
 </display:table>
 
+<input type="button" name="Edit PD" value="<spring:message code="handyWorker.editPD" />"
+			onclick="javascript: relativeRedir(handyWorker/edit.do');" />
+
 </security:authorize>
 
 <security:authorize access="hasRole('REFEREE')">
@@ -111,5 +119,8 @@
 <display:column property="attachment" titleKey="referee.reports.attachment" />
 <display:column property="isFinal" titleKey="referee.reports.isFinal" />
 </display:table>
+
+<input type="button" name="Edit PD" value="<spring:message code="referee.editPD" />"
+			onclick="javascript: relativeRedir(referee/edit.do');" />
 
 </security:authorize>
