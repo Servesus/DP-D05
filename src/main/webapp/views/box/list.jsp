@@ -22,21 +22,27 @@
 	requestURI="actor/boxes/list.do" id="row">
 		
 	<spring:message code="box.name" var="name" />
+	<jstl:set var = "Inbox" value = ${name == "Inbox"}/>
+	<jstl:set var = "Outbox" value = ${name == "Outbox"}/>
+	<jstl:set var = "Trashbox" value = ${name == "Trashbox"}/>
+	<jstl:set var = "Spambox" value = ${name == "Spambox"}/> 
 	<display:column property="name" title="${name}" sortable="true"/>
 
 	<display:column>
+	<jstl:if test="${box.id != 0 && box.isSystem ==false}">
 		<a href="actor/boxes/list.do?boxId=${row.id}">
-  	 <spring:message code="box.edit" /> </a>
+  	 	<spring:message code="box.edit" /> </a>
+  	 </jstl:if>
 	</display:column>	
 
 	<display:column>
 		<a href="actor/message/list.do">
-  	 <spring:message code="box.view" /> </a>
+  	 		<spring:message code="box.view" /> </a>
 	</display:column>	
 
 </display:table>
 
-<input type="button" name="Create" value="<spring:message code="box.create" />"
+<input type="button" name="New Box" value="<spring:message code="box.create" />"
 			onclick="javascript: relativeRedir('actor/box/create.do');" />
 </body>
 

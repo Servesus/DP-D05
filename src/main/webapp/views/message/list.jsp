@@ -16,23 +16,49 @@
 </head>
 
 <body>
-
-<display:table pagesize="5" class="box" name="boxes" 
-	requestURI="actor/boxes/list.do" id="row">
-	
-<display:column> <a href="box/findOne.do?actorkId=${row.id}">
-	<spring:message code="box.findOne" /></a> </display:column>
+<display:table pagesize="5" class="displaytag" name="messages" 
+	requestURI="box/messages/list.do" id="row">
 		
-	<spring:message code="box.name" var="name" />
-	<display:column property="name" title="${name}" sortable="true"/>
-
-	<spring:message code="box.id" var="id" />
-	<display:column property="id" title="${id}" sortable="true"/>
+	<spring:message code="message.sender" var="sender" />
+	<display:column property="sender" title="${sender.name}"/>
 	
+	<spring:message code="message.subject" var="subject" />
+	<display:column property="subject" title="${subject}"/>
+	
+	<spring:message code="message.priority" var="priority" />
+	<jstl:choose>
+		<jstl:when test="${message.priority == 0}">
+			priority = "NEUTRAL"
+		</jstl:when>
+		<jstl:when test="${message.priority == -1}">
+			priority = "LOW"
+		</jstl:when>
+		<jstl:when test="${message.priority == 1">
+			priority = "HIGH"
+		</jstl:when>
+	</jstl:choose>
+	<display:column property="priority" title="${priority}"/>
+	
+		<display:column property="subject" title="${subject}"/>
+	
+	<spring:message code="message.sendDate" var="sendDate" />
+	<display:column property="sendDate" title="${sendDate}"/>
+	
+		
+
+	<display:column>
+		<a href="message/view.do">
+  	 		<spring:message code="message.view" /> </a>
+	</display:column>
+	<display:column>
+		<a href="box/message/delete.do">
+  	 		<spring:message code="message.delete" /> </a>
+	</display:column>		
 
 </display:table>
-<input type="button" name="Create" value="<spring:message code="fixUpTask.create" />"
-			onclick="javascript: relativeRedir('fixUpTask/customer/create.do');" />
+
+<input type="button" name="Back" value="<spring:message code="box.list" />"
+			onclick="javascript: relativeRedir('actor/box/list.do');" />
 </body>
 
 </html>
