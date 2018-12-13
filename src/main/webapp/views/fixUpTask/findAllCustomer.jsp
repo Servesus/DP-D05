@@ -17,13 +17,18 @@
 <security:authorize access="hasRole('CUSTOMER')">
 <body>
 
+<form:label path="title">
+	<spring:message code="fixUpTask.title" />:
+</form:label>
+<br />
+
 <display:table pagesize="5" class="fixUpTask" name="fixUpTasks" 
 	requestURI="fixUpTask/customer/findAll.do" id="row">
 	
 <display:column> <a href="fixUpTask/findOne.do?fixUpTaskId=${row.id}">
-	<spring:message code="fixUpTask.findOne" /></a> </display:column>
+	<spring:message code="fixUpTask.list" /></a> </display:column>
 		
-		<spring:message code="fixUpTask.startDate" var="startDate" />
+	<spring:message code="fixUpTask.startDate" var="startDate" />
 	<display:column property="startDate" title="${startDate}" sortable="true" format="{0,date,dd/MM/yyyy HH:mm}"/>
 
 	<spring:message code="fixUpTask.description" var="description" />
