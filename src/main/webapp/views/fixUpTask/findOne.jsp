@@ -22,7 +22,7 @@
 
 
 <spring:message code="fixUpTask.startDate" /> ${fixUpTask.startDate} <br/>
-<spring:message code="fixUpTask.description" /> ${ficUpTask.description} <br/>
+<spring:message code="fixUpTask.description" /> ${fixUpTask.description} <br/>
 <spring:message code="fixUpTask.address" /> ${fixUpTask.address} <br/>
 <spring:message code="fixUpTask.maxPrice" /> ${fixUpTask.maxPrice} <br/>
 <spring:message code="fixUpTask.estimatedDate" /> ${fixUpTask.estimatedDate} <br/>
